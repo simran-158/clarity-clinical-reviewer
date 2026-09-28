@@ -13,12 +13,14 @@ Date: 28 September 2026.
 
 PyMuPDF emits third-party SWIG deprecation warnings on Python 3.13. Tests pass; the warnings do not indicate an application failure.
 
+GitHub CI [run 36412799852](https://github.com/simran-158/clarity-clinical-reviewer/actions/runs/36412799852) completed successfully: backend tests, PostgreSQL migration, frontend tests/build, Docker build, and container health.
+
 ## Pending external or runtime checks
 
 - Real OpenAI extraction/review and subjective clinical report quality: user has no AI API account yet.
 - Handwritten synthetic sample evaluation with the real provider.
-- Public Railway deployment: account sign-in required.
-- Container build and PostgreSQL runtime: Docker is not available locally. Deployment must verify these.
+- Public Railway deployment: user is signed in; automatic approval review requires explicit approval to create running services that consume trial credits.
+- Public PostgreSQL persistence across app restarts remains pending. CI verified the PostgreSQL migration, container build, and container health successfully.
 - Public persistence across a restart and real browser submit→poll→report→history.
 
 ## Live acceptance checklist

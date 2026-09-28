@@ -118,7 +118,7 @@ After creating `.env` and setting `SESSION_SECRET`:
 docker compose up --build
 ```
 
-Open http://localhost:8000. The compose database credentials are for local development only. Database files live in a named Docker volume. Container and real PostgreSQL verification are pending when Docker is unavailable; see `docs/verification.md`.
+Open http://localhost:8000. The compose database credentials are for local development only. Database files live in a named Docker volume. GitHub CI verified the container build, health endpoint, and PostgreSQL migration. Public deployment and persistence checks remain pending; see `docs/verification.md`.
 
 ## API
 
