@@ -15,18 +15,18 @@ PyMuPDF emits third-party SWIG deprecation warnings on Python 3.13. Tests pass; 
 
 GitHub CI [run 36412799852](https://github.com/simran-158/clarity-clinical-reviewer/actions/runs/36412799852) completed successfully: backend tests, PostgreSQL migration, frontend tests/build, Docker build, and container health.
 
-## Pending external or runtime checks
+## Deployment and remaining checks
 
 - Real OpenAI extraction/review and subjective clinical report quality: user has no AI API account yet.
 - Handwritten synthetic sample evaluation with the real provider.
-- Public Railway deployment: user is signed in; automatic approval review requires explicit approval to create running services that consume trial credits.
+- Railway deployment completed after explicit user approval to use trial credits. The application and Postgres are online; `alembic_version` and `analyses` tables are present. Public UI, secure sessions, health, empty history, API 404, sample report, and unconfigured-AI error are verified.
 - Public PostgreSQL persistence across app restarts remains pending. CI verified the PostgreSQL migration, container build, and container health successfully.
 - Public persistence across a restart and real browser submit→poll→report→history.
 
 ## Live acceptance checklist
 
 - [ ] Configure server-side API key and keep it out of logs and source control.
-- [ ] Deploy the combined service and PostgreSQL on Railway with a stable session secret and exact HTTPS origin.
+- [x] Deploy the combined service and PostgreSQL on Railway with a stable session secret and exact HTTPS origin.
 - [ ] Confirm health and `ai_configured: true`.
 - [ ] Submit `samples/clinical-note.txt` and compare every extracted fact with the source.
 - [ ] Submit typed image, typed PDF, scanned PDF, and mixed PDF fixtures.
@@ -36,3 +36,5 @@ GitHub CI [run 36412799852](https://github.com/simran-158/clarity-clinical-revie
 - [ ] Reload, reopen from history, and confirm another browser session cannot access the report.
 - [ ] Restart only when idle and confirm completed reports remain available.
 - [ ] Record real URLs, screenshots, observed model limitations, and results in README before submission.
+
+Public smoke test: `.venv/bin/python scripts/verify_public.py https://clarity-clinical-reviewer-production.up.railway.app` — passed. AI configured: false.

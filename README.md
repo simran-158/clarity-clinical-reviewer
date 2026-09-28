@@ -2,7 +2,7 @@
 
 Clarity turns synthetic clinical notes, images, and PDFs into readable, source-linked clinical reviews. It is a React application backed by a dedicated FastAPI service, structured AI extraction, and durable relational storage.
 
-**Current status:** Local frontend and backend are implemented and tested. Real AI inference and public deployment still require an AI API account/key and hosting setup. The sample report is explicitly illustrative; it is not a live analysis. Do not submit this project as fully deployed until the live verification checklist is complete.
+**Current status:** Frontend, backend, and PostgreSQL are deployed on Railway. Public UI, secure sessions, database health, and history API are verified. Live AI analysis still requires a server-side API key and real-provider validation. The sample report is explicitly illustrative, not live inference; the full assignment is not ready for submission until AI validation is complete.
 
 ![Clarity workspace](docs/screenshots/workspace-desktop.png)
 
@@ -35,7 +35,6 @@ scripts/            Sample generator and local startup helper
 docs/               Architecture, AI design, decisions, verification, screenshots
 Dockerfile          Combined frontend/backend container
 compose.yaml        Local app + PostgreSQL
-railway.json        Railway deployment configuration
 render.yaml         Optional Render deployment blueprint
 ```
 
@@ -118,7 +117,7 @@ After creating `.env` and setting `SESSION_SECRET`:
 docker compose up --build
 ```
 
-Open http://localhost:8000. The compose database credentials are for local development only. Database files live in a named Docker volume. GitHub CI verified the container build, health endpoint, and PostgreSQL migration. Public deployment and persistence checks remain pending; see `docs/verification.md`.
+Open http://localhost:8000. The compose database credentials are for local development only. Database files live in a named Docker volume. GitHub CI verified the container build, health endpoint, and PostgreSQL migration. Real-provider and public persistence checks remain pending; see `docs/verification.md`.
 
 ## API
 
@@ -148,11 +147,15 @@ Automated tests use a deterministic provider fixture for API workflow checks. Th
 
 The application needs a persistent container process and PostgreSQL. A static host or short-lived serverless function alone is insufficient for the current background worker.
 
-For your Railway account, follow [the Railway deployment guide](docs/deployment-railway.md). `railway.json` defines the Docker build, health check, and one replica.
+For your Railway account, follow [the Railway deployment guide](docs/deployment-railway.md). The Dockerfile defines the build; configure `/api/health`, one replica, and bounded restarts in Railway Settings (new services cannot opt into deprecated `railway.json` configuration).
 
 Alternatively, `render.yaml` describes one Docker web service and one PostgreSQL database. Review the provider's costs before creating resources. Configure `AI_API_KEY` and set `APP_ORIGIN` to the exact assigned HTTPS URL, without a trailing slash. Keep one instance and one Uvicorn worker. The same URL serves the frontend and `/api`, so a separate API host is unnecessary.
 
-Public application URL: **pending deployment**.
+Public application URL: **[https://clarity-clinical-reviewer-production.up.railway.app](https://clarity-clinical-reviewer-production.up.railway.app)**.
+
+API base URL: `https://clarity-clinical-reviewer-production.up.railway.app/api` (same deployment).
+
+The application and PostgreSQL run within the user-approved Railway trial. Trial expiry or exhausted credits can stop the services; no plan upgrade has been purchased.
 
 Before submission, verify every item in [the live checklist](docs/verification.md). Replace the pending deployment status with actual URLs only after successful deployment.
 
