@@ -1,0 +1,53 @@
+name: Verify assignment
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_USER: clinical
+          POSTGRES_PASSWORD: test-password
+          POSTGRES_DB: clinical
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: pip install -r backend/requirements.lock
+      - run: pytest -c backend/pyproject.toml backend/tests -q
+      - name: Verify PostgreSQL migration
+        working-directory: backend
+        env:
+          DATABASE_URL: postgresql+psycopg://clinical:test-password@localhost:5432/clinical
+        run: |
+          alembic upgrade head
+          alembic current
+      - run: npm install -g pnpm@11.19.0
+      - run: pnpm --dir frontend install --frozen-lockfile
+      - run: pnpm --dir frontend test
+      - run: pnpm --dir frontend build
+      - run: docker build -t clarity-test .
+      - name: Verify container health
+        run: |
+          docker run -d --name clarity-test -p 8000:8000 clarity-test
+          for attempt in $(seq 1 30); do
+            if curl --fail http://localhost:8000/api/health; then exit 0; fi
+            sleep 2
+          done
+          docker logs clarity-test
+          exit 1

@@ -6,6 +6,8 @@ Clarity turns synthetic clinical notes, images, and PDFs into readable, source-l
 
 ![Clarity workspace](docs/screenshots/workspace-desktop.png)
 
+Repository: https://github.com/simran-158/clarity-clinical-reviewer
+
 ## Features
 
 - Text, PNG/JPEG/WebP, and PDF input with server validation.
