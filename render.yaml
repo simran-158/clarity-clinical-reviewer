@@ -1,0 +1,30 @@
+# Review hosting costs in Render before applying this blueprint.
+services:
+  - type: web
+    name: clarity-clinical-reviewer
+    runtime: docker
+    plan: starter
+    numInstances: 1
+    healthCheckPath: /api/health
+    envVars:
+      - key: ENVIRONMENT
+        value: production
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: APP_ORIGIN
+        sync: false
+      - key: AI_API_KEY
+        sync: false
+      - key: AI_MODEL
+        value: gpt-4.1-mini
+      - key: DATABASE_URL
+        fromDatabase:
+          name: clarity-db
+          property: connectionString
+    autoDeployTrigger: off
+
+databases:
+  - name: clarity-db
+    plan: basic-256mb
+    databaseName: clinical
+    user: clinical

@@ -1,0 +1,12 @@
+SYNTHETIC CLINICAL NOTE - all details are fictional.
+Patient: Alex Morgan, age 42.
+Presenting concern: Dry cough for 3 days and mild fatigue.
+Denies shortness of breath.
+History: Hypertension.
+Medication: Amlodipine 5 mg once daily.
+Vitals: BP 128/82 mmHg, pulse 78 bpm,
+temperature 37.1 C, SpO2 98% on room air.
+Allergies: No known allergies.
+Observation: Alert and oriented.
+No respiratory distress noted.
+Smoking history and follow-up plan are not documented.

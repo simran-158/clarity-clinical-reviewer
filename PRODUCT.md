@@ -1,0 +1,2 @@
+# Clarity
+An educational clinical document reviewer for the AI/ML internship assignment. Users submit synthetic text, images, or PDFs, inspect a summary and source-linked findings, and revisit saved reports. It is not validated clinical software. Live AI requires a server-side provider key. The illustrative sample is static, labeled, and never stored as a completed analysis. The user approved the complete design and direct implementation.
